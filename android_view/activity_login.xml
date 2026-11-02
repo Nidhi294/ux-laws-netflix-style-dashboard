@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android‑style replica of the web login page -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#111111"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/login_card"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#222222"
+        android:padding="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"
+        android:clipToPadding="false">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/white"
+            android:textColorHint="#AAAAAA"
+            android:backgroundTint="#555555"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"
+            android:textColorHint="#AAAAAA"
+            android:backgroundTint="#555555"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#E50914"
+            android:layout_marginBottom="12dp"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/btn_skip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Skip"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#444444"
+            android:textSize="14sp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - UX Laws Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {font-family: Arial, sans-serif; background: #111; color: #eee; display: flex; align-items: center; justify-content: center; height: 100vh;}
+    .login-card {background: #222; padding: 2rem; border-radius: 8px; width: 320px;}
+    .login-card h2 {margin-top: 0; text-align: center;}
+    .login-card input {width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #555; border-radius: 4px; background: #333; color: #fff;}
+    .login-card button {width: 100%; padding: 0.6rem; background: #e50914; border: none; color: #fff; border-radius: 4px; cursor: pointer;}
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h2>Login</h2>
+    <form id="login-form" action="#" method="POST">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Sign In</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Login functionality not implemented in demo.');
+    });
+  </script>
+</body>
+</html>

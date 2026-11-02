@@ -10,6 +10,7 @@ import * as postels from './sandboxes/postels.js';
 import * as aesthetic from './sandboxes/aesthetic.js';
 import * as peakEnd from './sandboxes/peakEnd.js';
 import * as vonRestorff from './sandboxes/vonRestorff.js';
+import { attachCardHoverTooltip } from './tooltip.js';
 import * as zeigarnik from './sandboxes/zeigarnik.js';
 import * as teslers from './sandboxes/teslers.js';
 import * as serialPosition from './sandboxes/serialPosition.js';
@@ -74,7 +75,8 @@ const state = {
   myList: loadMyList(),
   currentHeroLaw: LAWS_DATA[0],
   activeModalLaw: null,
-  activeModalTab: 'overview'
+  activeModalTab: 'overview',
+  watchedHistory: [] // tracks IDs of laws opened in order
 };
 
 // Initialize Application
@@ -536,6 +538,13 @@ function openModal(law, autoPlay = true) {
       <p class="cs-desc">${cs.description}</p>
     </div>
   `).join('');
+  // Attach click handler to each case-study card to open the law's official URL
+  csGrid.querySelectorAll('.case-study-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const url = law.officialUrl || `https://lawsofux.com/${law.id}/`;
+      window.open(url, '_blank');
+    });
+  });
 
   // Render Key Takeaways
   const takeawaysList = document.getElementById('modal-takeaways-list');
@@ -556,6 +565,51 @@ function openModal(law, autoPlay = true) {
   document.body.style.overflow = 'hidden';
 
   feather.replace();
+
+  // ----- New Modal Navigation Bar -----
+  // Update watched history
+  if (!state.watchedHistory.length || state.watchedHistory[state.watchedHistory.length - 1] !== law.id) {
+    state.watchedHistory.push(law.id);
+  }
+  // Determine previous law based on history (second last entry)
+  let prevLaw = null;
+  if (state.watchedHistory.length > 1) {
+    const prevId = state.watchedHistory[state.watchedHistory.length - 2];
+    prevLaw = state.laws.find(l => l.id === prevId) || null;
+  }
+  // Determine next law based on list order (fallback)
+  const currentIndex = state.laws.findIndex(l => l.id === law.id);
+  const nextLaw = currentIndex < state.laws.length - 1 ? state.laws[currentIndex + 1] : null;
+  const modalBody = document.querySelector('.modal-body');
+  const existingNav = document.getElementById('modal-nav-bar');
+  if (existingNav) existingNav.remove();
+  const navBar = document.createElement('div');
+  navBar.id = 'modal-nav-bar';
+  navBar.className = 'modal-nav-bar';
+  navBar.innerHTML = `
+    <button id="modal-home" class="nav-btn"><i data-feather="home"></i></button>
+    <button id="modal-prev" class="nav-btn" ${prevLaw ? '' : 'disabled'}><i data-feather="chevron-left"></i> Prev</button>
+    <button id="modal-next" class="nav-btn" ${nextLaw ? '' : 'disabled'}>Next <i data-feather="chevron-right"></i></button>
+    <button id="modal-mylist" class="nav-btn"><i data-feather="bookmark"></i></button>
+  `;
+  modalBody.appendChild(navBar);
+  document.getElementById('modal-prev')?.addEventListener('click', () => { if (prevLaw) openModal(prevLaw, true); });
+  document.getElementById('modal-next')?.addEventListener('click', () => { if (nextLaw) openModal(nextLaw, true); });
+  document.getElementById('modal-home')?.addEventListener('click', () => {
+    closeModal();
+    state.currentCategory = 'all';
+    state.searchQuery = '';
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = '';
+    updateActiveCategoryUI('all');
+    renderDashboard();
+  });
+  document.getElementById('modal-mylist')?.addEventListener('click', () => {
+    closeModal();
+    state.currentCategory = 'mylist';
+    updateActiveCategoryUI('mylist');
+    renderDashboard();
+  });
 }
 
 function closeModal() {
